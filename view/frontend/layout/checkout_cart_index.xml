@@ -15,7 +15,7 @@
                             <item name="children" xsi:type="array">
                                 <item name="shipping-rates-validation" xsi:type="array">
                                     <item name="children" xsi:type="array">
-                                        <item name="ups-rates-validation" xsi:type="array">
+                                        <item name="inchoo-rates-validation" xsi:type="array">
                                             <item name="component" xsi:type="string">Inchoo_Shipping/js/view/shipping-rates-validation</item>
                                         </item>
                                     </item>

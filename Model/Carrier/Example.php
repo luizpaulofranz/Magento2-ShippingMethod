@@ -9,6 +9,8 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
 {
     /**
      * @var string
+     * Esse codigo deve bater com o ID configurado etc/adminhtml/system.xml
+     * o group definido na section carriers deve ser igual a esse codigo.
      */
     protected $_code = 'inchoo';
  
@@ -38,7 +40,7 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
      */
     public function getAllowedMethods()
     {
-        return ['inchoo' => $this->getConfigData('name')];
+        return [$this->getCarrierCode() => $this->getConfigData('name')];
     }
  
     /**
@@ -57,10 +59,10 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
         /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
         $method = $this->_rateMethodFactory->create();
  
-        $method->setCarrier('inchoo');
+        $method->setCarrier($this->getCarrierCode());
         $method->setCarrierTitle($this->getConfigData('title'));
  
-        $method->setMethod('inchoo');
+        $method->setMethod($this->getCarrierCode());
         $method->setMethodTitle($this->getConfigData('name'));
  
         /*you can fetch shipping price from different sources over some APIs, we used price from config.xml - xml node price*/
