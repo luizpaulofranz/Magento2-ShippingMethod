@@ -11,6 +11,8 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
      * @var string
      * Esse codigo deve bater com o ID configurado etc/adminhtml/system.xml
      * o group definido na section carriers deve ser igual a esse codigo.
+     * 
+     * Nao eh recomendado a utilizacao do caractere "_" nesse codigo
      */
     protected $_code = 'inchoo';
  
@@ -58,13 +60,16 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
  
         /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
         $method = $this->_rateMethodFactory->create();
- 
+        //Carrier eh transportador, por exemplo, correios
         $method->setCarrier($this->getCarrierCode());
         $method->setCarrierTitle($this->getConfigData('title'));
  
-        $method->setMethod($this->getCarrierCode());
-        $method->setMethodTitle($this->getConfigData('name'));
- 
+        //o nome do metodo pode ser especificado pela API por exemplo PAC ou Sedex
+        //primeiro o codigo exemplo 04014 - Código do sedex
+        //nao eh recomendado utilizar codigos com o caractere "_"
+        $method->setMethod(strtolower('0001'));
+        //aqui o nome pra aparecer no frontend
+        $method->setMethodTitle('Método 1');
         /*you can fetch shipping price from different sources over some APIs, we used price from config.xml - xml node price*/
         //$amount = $this->getConfigData('price');
         //um valor randomico entre 4 e 50
@@ -74,6 +79,30 @@ class Example extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
         $method->setCost($amount);
  
         $result->append($method);
+
+
+        /* ################ OUTRO METODO DO MESMO TRANSPORTADOR #######*/
+        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
+        $method2 = $this->_rateMethodFactory->create();
+ 
+        $method2->setCarrier($this->getCarrierCode());
+        $method2->setCarrierTitle($this->getConfigData('title'));
+ 
+        //o nome do metodo pode ser especificado pela API por exemplo PAC ou Sedex
+        //primeiro o codigo exemplo 04014 - Código do sedex
+        $method2->setMethod(strtolower('0002'));
+        //aqui o nome pra aparecer no frontend
+        $method2->setMethodTitle('Método 2');
+ 
+        /*you can fetch shipping price from different sources over some APIs, we used price from config.xml - xml node price*/
+        //$amount = $this->getConfigData('price');
+        //um valor randomico entre 4 e 50
+        $amount = rand(4,50);
+ 
+        $method2->setPrice($amount);
+        $method2->setCost($amount);
+
+        $result->append($method2);
  
         return $result;
     }
